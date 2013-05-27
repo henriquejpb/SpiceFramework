@@ -81,7 +81,7 @@ class DefaultRouteTest extends AbstractRouteTest {
      */
     public function testGetMatchRegex() {
         /* /path/to/resource/{resource} */
-        $expected = "#^/path/to/resource/(?<resource>.*)$#";
+        $expected = "#^/path/to/resource/(?<resource>[^/]+)$#";
         $actual = $this->invokeInvisibleMethod($this->route, 'getMatchRegex');       
 
         $this->assertEquals($expected, $actual);
@@ -89,7 +89,7 @@ class DefaultRouteTest extends AbstractRouteTest {
 
         $this->route->setMatchPattern("/foo/{bar}/{baz}");
 
-        $expected = "#^/foo/(?<bar>.*)/(?<baz>.*)$#";
+        $expected = "#^/foo/(?<bar>[^/]+)/(?<baz>[^/]+)$#";
         $actual = $this->invokeInvisibleMethod($this->route, 'getMatchRegex');       
 
         $this->assertEquals($expected, $actual);
@@ -105,14 +105,14 @@ class DefaultRouteTest extends AbstractRouteTest {
         $this->route->setMatchPattern($newPattern);
         $this->route->setParamRequired('resource', false);
 
-        $expected = "#^/path/to/(?<another>.*)(?:/(?<resource>.*))?$#";
+        $expected = "#^/path/to/(?<another>[^/]+)(?:/(?<resource>[^/]+))?$#";
         $actual = $this->invokeInvisibleMethod($this->route, 'getMatchRegex');       
 
         $this->assertEquals($expected, $actual);
 
         $this->route->setParamRequired('another', false);
 
-        $expected = "#^/path/to(?:/(?<another>.*))?(?:/(?<resource>.*))?$#";
+        $expected = "#^/path/to(?:/(?<another>[^/]+))?(?:/(?<resource>[^/]+))?$#";
         $actual = $this->invokeInvisibleMethod($this->route, 'getMatchRegex');       
 
         $this->assertEquals($expected, $actual);

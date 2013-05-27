@@ -345,7 +345,7 @@ class DefaultRoute extends AbstractRoute {
     private function getMatchRegex() {
         if ($this->matchRegex === null) {
             $this->matchRegex = '#^' . preg_replace(
-                self::PARAM_PATTERN, '(?<$1>.*)',
+                self::PARAM_PATTERN, '(?<$1>[^/]+)',
                 $this->getMatchPattern()
             ) . '$#';
         }
@@ -353,7 +353,7 @@ class DefaultRoute extends AbstractRoute {
         foreach ($this->required as $param => $isRequired) {
             if ($isRequired === false) {
                 $this->matchRegex = preg_replace(
-                    '#(' . preg_quote("/(?<{$param}>.*)", "#") . ')#', 
+                    '#(' . preg_quote("/(?<{$param}>[^/]+)", "#") . ')#', 
                     "(?:$1)?",
                     $this->matchRegex
                 );
