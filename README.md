@@ -1,4 +1,4 @@
-# Spice Framework
+# Spice Framework [![Build Status](https://travis-ci.org/henriquejpb/SpiceFramework.png?branch=master)](https://travis-ci.org/henriquejpb/SpiceFramework)
 
 Spice é um framework leve e modular criado por mim para fins de estudo.
 
