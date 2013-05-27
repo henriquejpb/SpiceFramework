@@ -1,3 +1,5 @@
 /project
 /tests/log
 .!gitignore
+/tags
+/docs

@@ -20,7 +20,7 @@ set_include_path(
             array_merge(
                 array(
                     APP_ROOT . 'src', 
-                    APP_ROOT . 'tests'
+                    APP_ROOT . 'tests/unit'
                 ),
                 explode(PATH_SEPARATOR, get_include_path())
             )

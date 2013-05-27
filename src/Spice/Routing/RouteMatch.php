@@ -1,5 +1,15 @@
 <?php
+/**
+ * Define a classe Spice_Routing_RouteInterface.
+ *
+ * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
+ * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
+ */
 
+/**
+ * Representa uma combinação feita com sucesso entre uma rota e uma requisição.
+ * @package Routing
+ */
 class Spice_Routing_RouteMatch implements ArrayAccess {
     /**
      * @var string O nome da rota que corresponde à requisição atual.
@@ -112,28 +122,28 @@ class Spice_Routing_RouteMatch implements ArrayAccess {
     }
 
     /**
-     * {@inherit-doc}
+     * @inherit-doc
      */
     public function offsetGet($offset) {
         return $this->getParam($offset);
     }
 
     /**
-     * {@inherit-doc}
+     * @inherit-doc
      */
     public function offsetSet($offset, $value) {
         return $this->setParam($offset, $value);
     }
     
     /**
-     * {@inherit-doc}
+     * @inherit-doc
      */
     public function offsetUnset($offset) {
         return $this->unsetParam($offset);
     }
 
     /**
-     * {@inherit-doc}
+     * @inherit-doc
      */
     public function offsetExists($offset) {
         return $this->getParam($offset) !== null;
