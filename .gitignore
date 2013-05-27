@@ -1,5 +1,7 @@
 /project
 /tests/log
-.!gitignore|travis.yml
 /tags
 /docs
+
+.!gitignore
+.!travis.yml
