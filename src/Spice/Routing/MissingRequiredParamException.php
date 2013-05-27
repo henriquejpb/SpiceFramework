@@ -1,10 +1,11 @@
 <?php
 /**
- * Define a exceção Spice_Routing_MissingRequiredParamException.
+ * Define a exceção Spice\Routing\MissingRequiredParamException.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Routing;
 
 /**
  * Exceção lançada quando se tenta reverter uma URL com parâmetros
@@ -12,6 +13,6 @@
  *
  * @package Routing
  */
-class Spice_Routing_MissingRequiredParamException extends LogicException {
+class MissingRequiredParamException extends \LogicException {
 
 }

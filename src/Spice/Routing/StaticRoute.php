@@ -1,10 +1,13 @@
 <?php
 /**
- * Define a classe Spice_Routing_StaticRoute.
+ * Define a classe \Spice\Routing\StaticRoute.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Routing;
+
+use Spice\Util\RequestInterface;
 
 /**
  * Representa uma rota estática.
@@ -12,11 +15,11 @@
  *
  * @package Routing
  */
-class Spice_Routing_StaticRoute extends Spice_Routing_AbstractRoute {
+class StaticRoute extends AbstractRoute {
     /**
      * @inherit-doc
      *
-     * @see Spice_Routing_RouteInterface::reverse()
+     * @see \Spice\Routing\RouteInterface::reverse()
      */
     public function reverse(array $params = array()) {
         return $this->getMatchPattern();
@@ -25,14 +28,14 @@ class Spice_Routing_StaticRoute extends Spice_Routing_AbstractRoute {
     /**
      * @inherit-doc
      *
-     * @see Spice_Routing_RouteInterface::match()
+     * @see \Spice\Routing\RouteInterface::match()
      */
-    public function match(Spice_Util_RequestInterface $request) {
+    public function match(RequestInterface $request) {
         if ($request->getUri() === $this->getMatchPattern()) {
-            return new Spice_Routing_RouteMatch($this->getName());
+            return new \Spice\Routing\RouteMatch($this->getName());
         }
-        throw new Spice_Routing_RouteMismatchException(
-            "A rota {$this->getName()} não combina com a requisição"
+        throw new \Spice\Routing\RouteMismatchException(
+            "A rota {$this->getName()} não combina com a requisição."
         );
     }
 }

@@ -1,17 +1,18 @@
 <?php
 /**
- * Defines Spice_Util_RequestInterface interface.
+ * Define a interface Spice\Util\RequestInterface.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Util;
 
 /**
  * Abstração para uma requisição genérica.
  *
  * @package Util
  */
-interface Spice_Util_RequestInterface {
+interface RequestInterface {
     /**
      * Obtém a URI (Unified Resource Identifier) da requisição.
      *

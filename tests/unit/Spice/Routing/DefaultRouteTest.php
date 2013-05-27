@@ -1,11 +1,13 @@
 <?php 
-class Spice_Routing_DefaultRouteTest extends Spice_Routing_AbstractRouteTest {
-    const ROUTE_CLASS = 'Spice_Routing_DefaultRoute';
+namespace Spice\Routing;
+
+class DefaultRouteTest extends AbstractRouteTest {
+    const ROUTE_CLASS = '\\Spice\\Routing\\DefaultRoute';
 
     protected $defaultPattern = "/path/to/resource/{resource}";
 
     protected function createRoute($name, $pattern) {
-        $refl = new ReflectionClass(self::ROUTE_CLASS);
+        $refl = new \ReflectionClass(self::ROUTE_CLASS);
         return $refl->newInstance($name, $pattern);
     }
 
@@ -14,12 +16,12 @@ class Spice_Routing_DefaultRouteTest extends Spice_Routing_AbstractRouteTest {
         $pattern, 
         array $defaults = array(), 
         array $requiredMap = array()) {
-        return new Spice_Routing_DefaultRoute($name, $pattern, $defaults, $requiredMap);
+        return new DefaultRoute($name, $pattern, $defaults, $requiredMap);
     }
 
     private function invokeInvisibleMethod($obj, $methodName, array $args = array()) {
         
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             self::ROUTE_CLASS, $methodName
         );
         $method->setaccessible(true);
@@ -68,11 +70,7 @@ class Spice_Routing_DefaultRouteTest extends Spice_Routing_AbstractRouteTest {
      * @test
      */
     public function testInvalidateMatchRegex() {
-        $method = new ReflectionMethod(
-          self::ROUTE_CLASS, 'invalidateMatchRegex'
-        );
-        $method->setaccessible(true);
-        $method->invoke($this->route);
+        $this->invokeInvisibleMethod($this->route, 'invalidateMatchRegex');
 
         $this->assertAttributeSame(null, 'matchRegex', $this->route);
     }
@@ -255,7 +253,7 @@ class Spice_Routing_DefaultRouteTest extends Spice_Routing_AbstractRouteTest {
 
     /**
      * @testdox Tenta construir uma URL com parâmetros obrigatórios faltando.
-     * @expectedException Spice_Routing_MissingRequiredParamException
+     * @expectedException \Spice\Routing\MissingRequiredParamException
      * @test
      */
     public function testReverseUrlWithMissingMandatoryParameters() {

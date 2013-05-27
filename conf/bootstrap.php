@@ -30,7 +30,11 @@ set_include_path(
 
 {
     function autoload($class) {
-        $file = sprintf("%s.php", str_replace('_', DIRECTORY_SEPARATOR, $class));
+        $file = sprintf(
+            "%s.php", 
+            str_replace('\\', DIRECTORY_SEPARATOR, $class)
+        );
+
         if (($classPath = stream_resolve_include_path($file)) != false) {
             require $classPath;
         }

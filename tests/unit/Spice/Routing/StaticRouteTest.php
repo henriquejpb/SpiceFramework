@@ -1,8 +1,10 @@
 <?php
-class Spice_Routing_StaticRouteTest extends Spice_Routing_AbstractRouteTest {
+namespace Spice\Routing;
+
+class StaticRouteTest extends AbstractRouteTest {
 
     protected function createRoute($name, $matchPattern) {
-        return new Spice_Routing_StaticRoute($name, $matchPattern);
+        return new StaticRoute($name, $matchPattern);
     }
     
     /**
@@ -24,13 +26,13 @@ class Spice_Routing_StaticRouteTest extends Spice_Routing_AbstractRouteTest {
                  ->method('getUri')
                  ->will($this->returnValue($uri));
 
-        $this->assertInstanceOf("Spice_Routing_RouteMatch", $this->route->match($request));
+        $this->assertInstanceOf("\\Spice\\Routing\\RouteMatch", $this->route->match($request));
     }
 
     /**
      * @testdox Quando a rota não "casa" com a requisição, uma exceção será lançada.
      * @test
-     * @expectedException Spice_Routing_RouteMismatchException
+     * @expectedException \Spice\Routing\RouteMismatchException
      */
     public function testMatchFails() {
         $uri = "/some/another/path";

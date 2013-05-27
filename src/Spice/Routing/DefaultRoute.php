@@ -1,10 +1,13 @@
 <?php
 /**
- * Define a classe Spice_Routing_DefaultRoute.
+ * Define a classe Spice\Routing\DefaultRoute.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Routing;
+
+use Spice\Util\RequestInterface;
 
 /**
  * Representa uma rota parametrizada.
@@ -12,7 +15,7 @@
  *
  * Exemplo:
  * <code>
- *  $routing = new Spice_Routing_DefaultRouting(
+ *  $routing = new \Spice\Routing\DefaultRouting(
  *      'my_route', 
  *      '/foo/bar/{action}'
  *  );
@@ -22,7 +25,7 @@
  *
  * @package Routing
  */
-class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
+class DefaultRoute extends AbstractRoute {
     private $defaults;
     private $required;
     private $paramList;
@@ -38,7 +41,7 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
      *
      * Exemplo:
      * <code>
-     *  $routing = new Spice_Routing_DefaultRouting(
+     *  $routing = new \Spice\Routing\DefaultRouting(
      *      'my_route', 
      *      '/foo/bar/{action}'
      *  );
@@ -75,7 +78,7 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
      *
      * Exemplo:
      * <code>
-     *  $routing = new Spice_Routing_DefaultRouting(
+     *  $routing = new \Spice\Routing\DefaultRouting(
      *      'my_route', 
      *      '/foo/bar/{action}'
      *  );
@@ -95,7 +98,7 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
      * sublinhados (`_`) e traços (`-`).
      *
      * Se nenhum parâmetro é necessário para a rota, considere utilizar
-     * `Spice_Routing_StaticRoute` para uma melhor performance.
+     * `\Spice\Routing\StaticRoute` para uma melhor performance.
      * 
      * @param string $matchPattern Um padrão de combinação.
      *
@@ -282,7 +285,7 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
     /**
      * @inherit-doc
      *
-     * @see Spice_Routing_RouteInterface::reverse()
+     * @see \Spice\Routing\RouteInterface::reverse()
      */
     public function reverse(array $params = array()) {
         $params = array_merge($this->defaults, $params);
@@ -293,9 +296,11 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
         );
 
         if (!empty($diff)) {
-            throw new Spice_Routing_MissingRequiredParamException(
-                "Parâmetros obrigatórios de roteamento faltando: " . 
-                join(', ', array_keys($diff))
+            throw new \Spice\Routing\MissingRequiredParamException(
+                sprintf(
+                    "Parâmetros obrigatórios de roteamento faltando: %s.",
+                    join(', ', array_keys($diff))
+                )
             );
         }
 
@@ -316,9 +321,9 @@ class Spice_Routing_DefaultRoute extends Spice_Routing_AbstractRoute {
     /**
      * @inherit-doc
      *
-     * @see Spice_Routing_RouteInterface::match()
+     * @see \Spice\Routing\RouteInterface::match()
      */
-    public function match(Spice_Util_RequestInterface $request) {
+    public function match(RequestInterface $request) {
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
-abstract class Spice_Routing_AbstractRouteTest extends PHPUnit_Framework_TestCase {
+namespace Spice\Routing;
+
+abstract class AbstractRouteTest extends \PHPUnit_Framework_TestCase {
 
     abstract protected function createRoute($name, $matchPattern);
     protected $defaultName = "my_route";
@@ -7,7 +9,7 @@ abstract class Spice_Routing_AbstractRouteTest extends PHPUnit_Framework_TestCas
     protected $route;
 
     protected function getRequestMock() {
-        return $this->getMock('Spice_Util_RequestInterface');
+        return $this->getMock('\\Spice\\Util\\RequestInterface');
     }
 
     /**
@@ -22,7 +24,7 @@ abstract class Spice_Routing_AbstractRouteTest extends PHPUnit_Framework_TestCas
      * @test
      */
     public function testInstantiate() {
-        $this->assertInstanceOf("Spice_Routing_AbstractRoute", $this->route);
+        $this->assertInstanceOf("\\Spice\\Routing\\AbstractRoute", $this->route);
 
     }
 

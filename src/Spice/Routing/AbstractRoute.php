@@ -1,16 +1,17 @@
 <?php
 /**
- * Define a classe Spice_Routing_AbstractRout.
+ * Define a classe Spice\Routing\AbstractRout.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Routing;
 
 /**
  * Implementa funcionalidades e armazena propriedades comuns aos tipos de rota.
  * @package Routing
  */
-abstract class Spice_Routing_AbstractRoute implements Spice_Routing_RouteInterface {
+abstract class AbstractRoute implements RouteInterface {
     
     /**
      * @var string O nome da rota.

@@ -1,8 +1,10 @@
 <?php
-class Spice_Routing_RouteMatchTest extends PHPUnit_Framework_TestCase {
+namespace Spice\Routing;
+
+class RouteMatchTest extends \PHPUnit_Framework_TestCase {
 
     private function createRouteMatch($routeName, array $params = array()) {
-        return new Spice_Routing_RouteMatch($routeName, $params);
+        return new RouteMatch($routeName, $params);
     }
 
     /**
@@ -11,7 +13,7 @@ class Spice_Routing_RouteMatchTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateInstance() {
         $match = $this->createRouteMatch('foo'); 
-        $this->assertInstanceOf('Spice_Routing_RouteMatch', $match);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
     }
 
     /**

@@ -1,16 +1,17 @@
 <?php
 /**
- * Define a classe Spice_Routing_RouteInterface.
+ * Define a classe Spice\Routing\RouteInterface.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
+namespace Spice\Routing;
 
 /**
  * Representa uma combinação feita com sucesso entre uma rota e uma requisição.
  * @package Routing
  */
-class Spice_Routing_RouteMatch implements ArrayAccess {
+class RouteMatch implements \ArrayAccess {
     /**
      * @var string O nome da rota que corresponde à requisição atual.
      */
@@ -37,7 +38,7 @@ class Spice_Routing_RouteMatch implements ArrayAccess {
      *
      * @param string $name O nome da rota.
      *
-     * @return Spice_Routing_RouteMatch Fluent interface.
+     * @return \Spice\Routing\RouteMatch Fluent interface.
      */
     public function setRouteName($name) {
         $this->routeName = (string) $name;
@@ -58,7 +59,7 @@ class Spice_Routing_RouteMatch implements ArrayAccess {
      *
      * @param array<string,string> $params Os parâmetros.
      *
-     * @return Spice_Routing_RouteMatch Fluent interface.
+     * @return \Spice\Routing\RouteMatch Fluent interface.
      */
     public function setParams(array $params) {
         foreach ($params as $key => $value) {
@@ -82,7 +83,7 @@ class Spice_Routing_RouteMatch implements ArrayAccess {
      * @param string $name O nome do parâmetro.
      * @param string $name O nome do parâmetro.
      *
-     * @return Spice_Routing_RouteMatch Fluent interface.
+     * @return \Spice\Routing\RouteMatch Fluent interface.
      */
     public function setParam($name, $value) {
         $this->params[(string) $name] = (string) $value;
@@ -95,7 +96,7 @@ class Spice_Routing_RouteMatch implements ArrayAccess {
      * @param string $name O nome do parâmetro.
      * @param string $name O nome do parâmetro.
      *
-     * @return Spice_Routing_RouteMatch Fluent interface.
+     * @return \Spice\Routing\RouteMatch Fluent interface.
      */
     public function unsetParam($name) {
         if (isset($this->params[$name])) {
