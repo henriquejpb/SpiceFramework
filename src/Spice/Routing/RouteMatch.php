@@ -20,7 +20,7 @@ class RouteMatch implements \ArrayAccess {
     /**
      * @var array Um array associativo contendo os parâmetros de rota encontrados.
      */
-    private $params;
+    private $params = array();
 
     /**
      * Inicializa um objeto `RouteMatch` com um nome e os parâmetros encontrados. 

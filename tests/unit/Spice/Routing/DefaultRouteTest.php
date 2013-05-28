@@ -252,24 +252,123 @@ class DefaultRouteTest extends AbstractRouteTest {
     }
 
     /**
-     * @testdox Tenta construir uma URL com parâmetros obrigatórios faltando.
+     * @testdox Tenta construir uma URI com parâmetros obrigatórios faltando.
      * @expectedException \Spice\Routing\MissingRequiredParamException
      * @test
      */
-    public function testReverseUrlWithMissingMandatoryParameters() {
+    public function testReverseUriWithMissingMandatoryParameters() {
         $actual = $this->route->reverse();
     }
 
     /**
-     * @testdox Constrói uma URL com parâmetros opcionais.
+     * @testdox Constrói uma URI com parâmetros opcionais.
      * @test
      */
-    public function testReverseUrlWithDefaultValuesForMandatoryParameters() {
+    public function testReverseUriWithDefaultValuesForMandatoryParameters() {
         $expected = "/path/to/resource/foo";
         $this->route->setDefaults(array('resource' => 'foo'));
 
         $actual = $this->route->reverse();
 
         $this->assertEquals($expected, $actual);
+    }
+    
+    /**
+     * @testdox Realiza o "casamento" da rota com uma requisição com sucesso.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUri() {
+        $uri = "/path/to/resource/foo";
+
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertArrayHasKey('resource', $match->getParams());
+        $this->assertContains('foo', $match->getParams());
+    }
+
+    /**
+     * @testdox O "casamento" da rota com uma requisição falhará.
+     * @test
+     * @expectedException \Spice\Routing\RouteMismatchException
+     */
+    public function testMismatchRequestUri() {
+        $uri = "/path/to/another/foo";
+
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+    }
+
+    /**
+     * @testdox Realiza o casamento da rota com uma requisição vários parâmetros.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUriMultipleParameters() {
+        $this->route->setMatchPattern('/foo/{bar}/{baz}');
+        $uri = "/foo/a/b";
+
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertArrayHasKey('bar', $match->getParams());
+        $this->assertArrayHasKey('baz', $match->getParams());
+        $this->assertContains('a', $match->getParams());
+        $this->assertContains('b', $match->getParams());
+    }
+
+    /**
+     * @testdox Realiza o casamento da rota contendo um parâmetro opcional com uma requisição.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUriWithOptionalParameter() {
+        $this->route->setMatchPattern('/foo/{bar}/{baz}');
+        $this->route->setParamRequired('baz', false);
+
+        $uri = "/foo/a";
+
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertArrayHasKey('bar', $match->getParams());
+        $this->assertArrayNotHasKey('baz', $match->getParams());
+        $this->assertContains('a', $match->getParams());
+    }
+
+    /**
+     * @testdox Realiza o casamento da rota contendo mais de um parâmetro opcional com uma requisição.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUriWithMultipleOptionalParameters() {
+        $this->route->setMatchPattern('/foo/{bar}/{baz}');
+        $this->route->setParamRequired('baz', false);
+        $this->route->setParamRequired('bar', false);
+
+        $uri = "/foo";
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertArrayNotHasKey('bar', $match->getParams());
+        $this->assertArrayNotHasKey('baz', $match->getParams());
     }
 }

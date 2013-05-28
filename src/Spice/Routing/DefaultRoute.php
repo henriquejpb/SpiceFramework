@@ -324,6 +324,18 @@ class DefaultRoute extends AbstractRoute {
      * @see \Spice\Routing\RouteInterface::match()
      */
     public function match(RequestInterface $request) {
+        $uri = $request->getUri();
+        if (preg_match($this->getMatchRegex(), $uri, $matches)) {
+            $paramMatches = array_intersect_key($matches, array_flip($this->paramList));
+            return new RouteMatch($this->getName(), $paramMatches);
+        }
+        throw new RouteMismatchException(
+            sprintf(
+                "A URI %s não casa com o padrão %s.",
+                $uri,
+                $this->getMatchPattern()
+            )
+        );
     }
 
     /**
