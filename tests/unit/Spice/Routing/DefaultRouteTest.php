@@ -371,4 +371,25 @@ class DefaultRouteTest extends AbstractRouteTest {
         $this->assertArrayNotHasKey('bar', $match->getParams());
         $this->assertArrayNotHasKey('baz', $match->getParams());
     }
+
+    /**
+     * @testdox Realiza o casamento da rota contendo um parâmetro opcional no meio da URI.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUriWithOptionalParameterInTheMiddleOfTheUri() {
+        $this->route->setMatchPattern('/foo/{bar}/{baz}');
+        $this->route->setParamRequired('bar', false);
+
+        $uri = "/foo/a";
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertArrayNotHasKey('bar', $match->getParams());
+        $this->assertArrayHasKey('baz', $match->getParams());
+    }
 }

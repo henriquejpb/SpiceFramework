@@ -326,7 +326,9 @@ class DefaultRoute extends AbstractRoute {
     public function match(RequestInterface $request) {
         $uri = $request->getUri();
         if (preg_match($this->getMatchRegex(), $uri, $matches)) {
-            $paramMatches = array_intersect_key($matches, array_flip($this->paramList));
+            $paramMatches = array_filter(
+                array_intersect_key($matches, array_flip($this->paramList)
+            ));
             return new RouteMatch($this->getName(), $paramMatches);
         }
         throw new RouteMismatchException(
