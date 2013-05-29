@@ -32,7 +32,7 @@ class StaticRoute extends AbstractRoute {
      */
     public function match(RequestInterface $request) {
         if ($request->getUri() === $this->getMatchPattern()) {
-            return new \Spice\Routing\RouteMatch($this->getName());
+            return new \Spice\Routing\RouteMatch($this->getName(), $this->getDefaults());
         }
         throw new \Spice\Routing\RouteMismatchException(
             "A rota {$this->getName()} não combina com a requisição."

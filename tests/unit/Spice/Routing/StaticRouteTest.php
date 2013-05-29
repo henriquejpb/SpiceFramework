@@ -26,7 +26,10 @@ class StaticRouteTest extends AbstractRouteTest {
                  ->method('getUri')
                  ->will($this->returnValue($uri));
 
-        $this->assertInstanceOf("\\Spice\\Routing\\RouteMatch", $this->route->match($request));
+        $match = $this->route->match($request);
+
+        $this->assertInstanceOf("\\Spice\\Routing\\RouteMatch", $match);
+        $this->assertEquals($this->route->getName(), $match->getRouteName());
     }
 
     /**
@@ -43,5 +46,28 @@ class StaticRouteTest extends AbstractRouteTest {
                  ->will($this->returnValue($uri));
 
         $this->route->match($request);
+    }
+
+    /**
+     * @testdox Parâmetros padrão da rota são incluídos no objeto RouteMatch resultante da combinação.
+     * @test
+     * @depends testMatchOk
+     */
+    public function testReturnMatchWithDefaultParams() {
+        $uri = $this->defaultPattern;
+
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $controller = array('controller' => 'bar');
+        $action = array('action' => 'foo');
+        $this->route->setDefaults($controller);
+        $this->route->setDefaultParam(key($action), current($action));
+        
+        $match = $this->route->match($request);
+
+        $this->assertEquals($controller + $action, $match->getParams());
     }
 }

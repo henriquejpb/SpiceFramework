@@ -16,7 +16,11 @@ use Spice\Util\RequestInterface;
  */
 interface RouteInterface {
     /**
-     * Tenta casar a rota com a requisição.
+     * Tenta combinar a rota com a requisição.
+     *
+     * Caso o "casamento" se realize com sucesso, retornará um objeto
+     * `Spice\Routing\RouteMatch` contendo as informações sobre a
+     * combinação da rota com a requisição.
      *
      * @param \Spice\Util_RequestInterface A requisição.
      *
