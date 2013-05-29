@@ -24,14 +24,27 @@ abstract class AbstractRoute implements RouteInterface {
     private $matchPattern;
 
     /**
+     * @var array Os valores padrão de parâmetros em caso de sucesso
+     *      na combinação da rota com a requisição.
+     */
+    private $defaults;
+
+    /**
      * Inicializa os parâmetros comuns de uma rota.
      *
      * @param string $name O nome da rota.
      * @param string $matchPattern O padrão de "casamento" da rota.
+     * @param array $defaultsMap [OPCIONAL] Um array associativo para os 
+     *      valores-padrão dos parâmetros de rota.
      */
-    public function __construct($name, $matchPattern) {
+    public function __construct(
+        $name, 
+        $matchPattern, 
+        array $defaultsMap = array()
+    ) {
         $this->setName($name);
         $this->setMatchPattern($matchPattern);
+        $this->setDefaults($defaultsMap);
     }
 
     /**
@@ -79,4 +92,77 @@ abstract class AbstractRoute implements RouteInterface {
         }
         $this->matchPattern = $matchPattern;
     }
+
+    /**
+     * Estabelece os valores padrão para os parâmetros da rota.
+     * Não há nenhum tipo de verificação se dado parâmetro existe.
+     *
+     * O array `$defaultsMap` é associativo da forma:
+     * <code>
+     *  array (
+     *      param1 => value1,
+     *      param2 => value2,
+     *      ...
+     *  )
+     * </code>
+     * onde são fornecidos valores padrão para os argumentos requeridos.
+     *
+     * @param array $defaultsMap [OPCIONAL] Um array associativo para os 
+     *      valores-padrão dos parâmetros de rota.
+     *
+     * @return void
+     */
+    public function setDefaults(array $defaultsMap) {
+        $this->defaults = array_map(
+            function ($item) {
+                return (string) $item;
+            }, 
+            $defaultsMap
+        );
+    }
+
+    /**
+     * Retorna os valores padrão dos parâmetros da rota.
+     *
+     * O retorno será da forma:
+     * <code>
+     *  array (
+     *      param1 => value1,
+     *      param2 => value2,
+     *      ...
+     *  )
+     * </code>
+     *
+     * @return array<string> Um array contendo os parâmetros.
+     */
+    public function getDefaults() {
+        return $this->defaults;
+    }
+
+    /**
+     * Estabelece o valor padrão de um parâmetro.
+     * Se já existe um valor para o referido parâmetro, o mesmo será 
+     * sobrescrito, sem nenhum tipo de aviso ou exceção lançada.
+     *
+     * @param string $name O nome do parâmetro.
+     * @param string $value O valor do parâmetro.
+     *
+     * @return void
+     */
+    public function setDefaultParam($name, $value) {
+        $this->defaults[(string) $name] = (string) $value;
+    }
+
+    /**
+     * Obtém o valor padrão de um parâmetro.
+     * Se dito parâmetro não existir, `NULL` será retornado.
+     *
+     * @param string $name O nome do parâmetro.
+     *
+     * @return void
+     */
+    public function getDefaultParam($name) {
+        return isset($this->defaults[$name]) ? $this->defaults[$name] : null;
+    }
+
 }

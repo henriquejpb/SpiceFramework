@@ -1,6 +1,6 @@
 <?php
 /**
- * Define a classe \Spice\Routing\StaticRoute.
+ * Define a classe Spice\Routing\StaticRoute.
  *
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
@@ -32,7 +32,7 @@ class StaticRoute extends AbstractRoute {
      */
     public function match(RequestInterface $request) {
         if ($request->getUri() === $this->getMatchPattern()) {
-            return new \Spice\Routing\RouteMatch($this->getName());
+            return new \Spice\Routing\RouteMatch($this->getName(), $this->getDefaults());
         }
         throw new \Spice\Routing\RouteMismatchException(
             "A rota {$this->getName()} não combina com a requisição."

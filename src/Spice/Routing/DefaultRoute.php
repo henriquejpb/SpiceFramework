@@ -26,7 +26,6 @@ use Spice\Util\RequestInterface;
  * @package Routing
  */
 class DefaultRoute extends AbstractRoute {
-    private $defaults;
     private $required;
     private $paramList;
     private $matchRegex;
@@ -55,8 +54,6 @@ class DefaultRoute extends AbstractRoute {
      *
      * @inherit-doc
      * 
-     * @param array $defaultsMap [OPCIONAL] Um array associativo para os 
-     *      valores-padrão dos parâmetros de rota.
      * @param array $requiredMap [OPCIONAL] Um array associativo indicando
      *      se os parâmetros são obrigatórios ou não.
      */
@@ -66,8 +63,7 @@ class DefaultRoute extends AbstractRoute {
         array $defaultsMap = array(), 
         array $requiredMap = array()
     ) {
-        parent::__construct($name, $matchPattern);
-        $this->setDefaults($defaultsMap);
+        parent::__construct($name, $matchPattern, $defaultsMap);
         $this->setParamsRequiredMap($requiredMap);
     }
 
@@ -108,73 +104,6 @@ class DefaultRoute extends AbstractRoute {
         parent::setMatchPattern($matchPattern);
         $this->parseMatchPattern();
         $this->resetParamsRequiredMap();
-    }
-
-    /**
-     * Estabelece os valores padrão para os parâmetros da rota.
-     * Não há nenhum tipo de verificação se dado parâmetro existe.
-     *
-     * O array `$defaultsMap` é associativo da forma:
-     * <code>
-     *  array (
-     *      param1 => value1,
-     *      param2 => value2,
-     *      ...
-     *  )
-     * </code>
-     * onde são fornecidos valores padrão para os argumentos requeridos.
-     *
-     * @param array $defaultsMap [OPCIONAL] Um array associativo para os 
-     *      valores-padrão dos parâmetros de rota.
-     *
-     * @return void
-     */
-    public function setDefaults(array $defaultsMap) {
-        $this->defaults = $defaultsMap;
-    }
-
-    /**
-     * Retorna os valores padrão dos parâmetros da rota.
-     *
-     * O retorno será da forma:
-     * <code>
-     *  array (
-     *      param1 => value1,
-     *      param2 => value2,
-     *      ...
-     *  )
-     * </code>
-     *
-     * @return array Um array contendo os parâmetros.
-     */
-    public function getDefaults() {
-        return $this->defaults;
-    }
-
-    /**
-     * Estabelece o valor padrão de um parâmetro.
-     * Se já existe um valor para o referido parâmetro, o mesmo será 
-     * sobrescrito, sem nenhum tipo de aviso ou exceção lançada.
-     *
-     * @param string $name O nome do parâmetro.
-     * @param string $value O valor do parâmetro.
-     *
-     * @return void
-     */
-    public function setDefaultParam($name, $value) {
-        $this->defaults[$name] = $value;
-    }
-
-    /**
-     * Obtém o valor padrão de um parâmetro.
-     * Se dito parâmetro não existir, `NULL` será retornado.
-     *
-     * @param string $name O nome do parâmetro.
-     *
-     * @return void
-     */
-    public function getDefaultParam($name) {
-        return isset($this->defaults[$name]) ? $this->defaults[$name] : null;
     }
 
     /**
@@ -288,7 +217,7 @@ class DefaultRoute extends AbstractRoute {
      * @see \Spice\Routing\RouteInterface::reverse()
      */
     public function reverse(array $params = array()) {
-        $params = array_merge($this->defaults, $params);
+        $params = $this->getDefaults() + $params;
 
         $diff = array_diff_key(
             array_filter($this->required),
@@ -321,14 +250,21 @@ class DefaultRoute extends AbstractRoute {
     /**
      * @inherit-doc
      *
+     * **Importante:** Em caso de sucesso na combinação com a requisição,
+     * parâmetros padrão da requisição serão retornados 
+     *
      * @see \Spice\Routing\RouteInterface::match()
      */
     public function match(RequestInterface $request) {
         $uri = $request->getUri();
         if (preg_match($this->getMatchRegex(), $uri, $matches)) {
-            $paramMatches = array_filter(
-                array_intersect_key($matches, array_flip($this->paramList)
-            ));
+            $paramMatches = $this->getDefaults() + array_filter($matches);
+            foreach ($paramMatches as $key => $value) {
+                if (is_numeric($key)) {
+                    unset($paramMatches[$key]);
+                }
+            }
+
             return new RouteMatch($this->getName(), $paramMatches);
         }
         throw new RouteMismatchException(

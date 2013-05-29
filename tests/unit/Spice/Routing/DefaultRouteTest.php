@@ -373,7 +373,7 @@ class DefaultRouteTest extends AbstractRouteTest {
     }
 
     /**
-     * @testdox Realiza o casamento da rota contendo um parâmetro opcional no meio da URI.
+     * @testdox Realiza o casamento da rota contendo um parâmetro opcional no meio da URI sem que o mesmo exista nesta.
      * @test
      */
     public function testSuccessfullyMatchRequestUriWithOptionalParameterInTheMiddleOfTheUri() {
@@ -389,7 +389,48 @@ class DefaultRouteTest extends AbstractRouteTest {
 
         $match = $this->route->match($request);
         $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertEquals('a', $match['baz']);
         $this->assertArrayNotHasKey('bar', $match->getParams());
-        $this->assertArrayHasKey('baz', $match->getParams());
+    }
+
+
+    /**
+     * @testdox Realiza o casamento da rota contendo um parâmetro opcional no meio da URI sem que o mesmo exista nesta, mas possui valor padrão.
+     * @test
+     */
+    public function testSuccessfullyMatchRequestUriWithOptionalParameterInTheMiddleOfTheUriWithDefaultValue() {
+        $this->route->setMatchPattern('/foo/{bar}/{baz}');
+        $this->route->setParamRequired('bar', false);
+        $this->route->setDefaults(array('bar' => 'b'));
+
+        $uri = "/foo/a";
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $match = $this->route->match($request);
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertEquals(array('baz' => 'a', 'bar' => 'b'), $match->getParams());
+    }
+
+    /**
+     * @testdox Verifica se um parâmetro padrão não presente do padrão de combinação da rota é incluído nas informações da combinação com a requisição.
+     */
+    public function testDefaultParamNotInRoutePatternIncludedAsRouteMatchParam() {
+        $uri = "/path/to/resource/foo";
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())
+                 ->method('getUri')
+                 ->will($this->returnValue($uri));
+
+        $this->route->setDefaultParam('controller', 'bar');
+
+        $match = $this->route->match($request);
+
+        $this->assertInstanceOf('\\Spice\\Routing\\RouteMatch', $match);
+        $this->assertEquals(array('resource' => 'foo', 'controller' => 'bar'), $match->getParams());
     }
 }
