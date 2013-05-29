@@ -9,12 +9,13 @@ namespace Spice\Filter;
 
 /**
  * Este filtro aceitará qualquer valor.
+ * @package Filter
  */
 class Any extends AbstractFilter {
     /**
      * Aceita qualquer valor.
      * 
-     * @inherit-doc
+     * @inheritdoc
      *
      * @return boolean Sempre retornará `true`.
      */

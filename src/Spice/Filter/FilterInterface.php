@@ -12,6 +12,7 @@ namespace Spice\Filter;
  * Define que os objetos que a implementam devem implementar
  * o método mágico `__invoke()` que permite a utilização de
  * objetos como callbacks.
+ * @package Filter
  */
 interface FilterInterface {
     /**

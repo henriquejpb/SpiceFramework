@@ -9,6 +9,7 @@ namespace Spice\Filter;
 
 /**
  * Este filtro fará uma disjunção entre o retorno de cada um de seus filhos.
+ * @package Filter
  */
 class Conjunction extends CompositeFilter {
     /**
@@ -17,7 +18,7 @@ class Conjunction extends CompositeFilter {
      * **IMPORTANTE:** Caso o objeto não possua nenhum filho, 
      * o retorno será `false`.
      *
-     * @inherit-doc
+     * @inheritdoc
      *
      * @return boolean Uma conjunção entre o retorno dos filhos do objeto.
      */

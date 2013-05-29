@@ -9,6 +9,7 @@ namespace Spice\Filter;
 
 /**
  * Representa uma composição de diversos filtros.
+ * @package Filter
  */
 abstract class CompositeFilter extends AbstractFilter implements \Countable, \IteratorAggregate {
     /**

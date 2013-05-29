@@ -123,28 +123,28 @@ class RouteMatch implements \ArrayAccess {
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      */
     public function offsetGet($offset) {
         return $this->getParam($offset);
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      */
     public function offsetSet($offset, $value) {
         return $this->setParam($offset, $value);
     }
     
     /**
-     * @inherit-doc
+     * @inheritdoc
      */
     public function offsetUnset($offset) {
         return $this->unsetParam($offset);
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      */
     public function offsetExists($offset) {
         return $this->getParam($offset) !== null;

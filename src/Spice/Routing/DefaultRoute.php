@@ -52,7 +52,7 @@ class DefaultRoute extends AbstractRoute {
      * @see self::setDefaults()
      * @see self::setParamsRequiredMap()
      *
-     * @inherit-doc
+     * @inheritdoc
      * 
      * @param array $requiredMap [OPCIONAL] Um array associativo indicando
      *      se os parâmetros são obrigatórios ou não.
@@ -212,7 +212,7 @@ class DefaultRoute extends AbstractRoute {
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      *
      * @see \Spice\Routing\RouteInterface::reverse()
      */
@@ -248,7 +248,7 @@ class DefaultRoute extends AbstractRoute {
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      *
      * **Importante:** Em caso de sucesso na combinação com a requisição,
      * parâmetros padrão da requisição serão retornados 

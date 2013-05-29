@@ -17,7 +17,7 @@ use Spice\Util\RequestInterface;
  */
 class StaticRoute extends AbstractRoute {
     /**
-     * @inherit-doc
+     * @inheritdoc
      *
      * @see \Spice\Routing\RouteInterface::reverse()
      */
@@ -26,7 +26,7 @@ class StaticRoute extends AbstractRoute {
     }
 
     /**
-     * @inherit-doc
+     * @inheritdoc
      *
      * @see \Spice\Routing\RouteInterface::match()
      */

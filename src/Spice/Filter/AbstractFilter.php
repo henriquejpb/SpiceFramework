@@ -11,10 +11,11 @@ namespace Spice\Filter;
  * Operações comuns para um filtro.
  * Esta classe define que o método `__invoke` irá apenas
  * delegar a execução para o método `accept`.
+ * @package Filter
  */
 abstract class AbstractFilter {
     /**
-     * @inherit-doc
+     * @inheritdoc
      * @see \Spice\Filter\FilterInterface::accept()
      */
     public abstract function accept($value);
