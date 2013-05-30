@@ -14,6 +14,7 @@ class InArrayTest extends \PHPUnit_Framework_TestCase {
         $allowed = array('foo', 'bar', 'baz');
         $filter = $this->getFilter($allowed);
 
+        $this->assertInstanceof('\\Spice\\Filter\\InArray', $filter);
         $this->assertAttributeEquals($allowed, 'allowed', $filter);
     }
 
