@@ -28,8 +28,8 @@ set_include_path(
     )
 );
 
-{
-    function autoload($class) {
+spl_autoload_register(
+    function ($class) {
         $file = sprintf(
             "%s.php", 
             str_replace('\\', DIRECTORY_SEPARATOR, $class)
@@ -39,6 +39,4 @@ set_include_path(
             require $classPath;
         }
     }
-
-    spl_autoload_register('autoload', true);
-}
+, true);
