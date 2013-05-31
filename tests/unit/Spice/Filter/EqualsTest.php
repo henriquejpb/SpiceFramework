@@ -2,12 +2,39 @@
 namespace Spice\Filter;
 
 class EqualsTest extends \PHPUnit_Framework_TestCase {
+
+    private function getFilter($expected) {
+        return new \Spice\Filter\Equals($expected);
+    }
+
+    /**
+     * @testdox O objeto é inicializado corretamente.
+     * @test
+     */
+    public function testInitialization() {
+        $filter = $this->getFilter('foo');
+
+        $this->assertAttributeEquals('foo', 'expected', $filter);
+    }
+
+
+    /**
+     * @testdox É possível alterar o valor esperado pelo filtro.
+     * @test
+     */
+    public function testSetAndGetExpectedValue() {
+        $filter = $this->getFilter('foo');
+        $filter->setExpected('bar');
+
+        $this->assertEquals('bar', $filter->getExpected());
+    }
+
     /**
      * @testdox Aceita um valor escalar idêntico ao esperado.
      * @test
      */
     public function testAcceptWithIdenticalValueWillReturnTrue() {
-        $filter = new \Spice\Filter\Equals('expected');
+        $filter = $this->getFilter('expected');
 
         $this->assertTrue($filter->accept('expected'));
     }
@@ -17,7 +44,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase {
      * @test
      */
     public function testAcceptWithDifferentScalarValueWillReturnFalse() {
-        $filter = new \Spice\Filter\Equals('expected');
+        $filter = $this->getFilter('expected');
 
         $this->assertFalse($filter->accept('not expected'));
     }
@@ -27,7 +54,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase {
      * @test
      */
     public function testAcceptEqualsToExpectedButWithDifferentTypeWillReturnFalse() {
-        $filter = new \Spice\Filter\Equals('1');
+        $filter = $this->getFilter('1');
 
         $this->assertFalse($filter->accept(1));
         $this->assertFalse($filter->accept(true));
@@ -38,7 +65,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase {
      * @test
      */
     public function testAcceptArrayContainingScalarValuesEqualsToExpectedButWithDifferentTypesWillReturnFalse() {
-        $filter = new \Spice\Filter\Equals(array('1', '2'));
+        $filter = $this->getFilter(array('1', '2'));
 
         $this->assertFalse($filter->accept(array('1', 2)));
     }
@@ -52,7 +79,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase {
         $expected->foo = 'bar';
         $expected->baz = '1';
 
-        $filter = new \Spice\Filter\Equals($expected);
+        $filter = $this->getFilter($expected);
 
         $this->assertTrue($filter->accept(clone $expected));
     }
@@ -66,7 +93,7 @@ class EqualsTest extends \PHPUnit_Framework_TestCase {
         $expected->foo = 'bar';
         $expected->baz = '1';
 
-        $filter = new \Spice\Filter\Equals($expected);
+        $filter = $this->getFilter($expected);
 
         $value = new \StdClass();
         $value->foo = 'bar';
