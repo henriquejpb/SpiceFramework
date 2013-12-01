@@ -4,6 +4,7 @@ php:
     - "5.4"
     - "5.3"
 
-script: "phpunit -c tests/unit/phpunit.xml"
+before_script: "make install --dev"
+script: "make unittest"
 
 
