@@ -12,12 +12,6 @@
         }
 
     ],
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    },
-    "config": {
-        "bin-dir": "/usr/local/bin/"
-    },
     "autoload": {
         "psr-0": {
             "Spice\\": ["src/", "tests/unit"]
