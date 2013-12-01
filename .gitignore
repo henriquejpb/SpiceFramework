@@ -2,8 +2,10 @@
 /tests/log
 /tags
 /docs
+/vendor
 
 .!gitignore
 .!travis.yml
 *.un~
 *~
+composer.lock
