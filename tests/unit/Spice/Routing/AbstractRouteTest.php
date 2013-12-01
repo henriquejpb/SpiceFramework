@@ -9,7 +9,7 @@ abstract class AbstractRouteTest extends \PHPUnit_Framework_TestCase {
     protected $route;
 
     protected function getRequestMock() {
-        return $this->getMock('\\Spice\\Util\\RequestInterface');
+        return $this->getMock('\\Spice\\Http\\RequestInterface');
     }
 
     /**

@@ -7,7 +7,7 @@
  */
 namespace Spice\Routing;
 
-use Spice\Util\RequestInterface;
+use Spice\Http\RequestInterface;
 
 /**
  * Abstraction for a route.

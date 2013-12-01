@@ -5,7 +5,7 @@
  * @license http://opensource.org/licenses/GPL-3.0 GNU Public License
  * @author Henrique Barcelos <rick.hjpbarcelos@gmail.com>
  */
-namespace Spice\Util;
+namespace Spice\Http;
 
 /**
  * Abstração para uma requisição genérica.
